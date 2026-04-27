@@ -26,18 +26,19 @@ Hero background uses the same image URL as the live WordPress site for visual pa
 
 This is a **prototype**: no WordPress, PayPal, translate widget, or email backend.
 
-## GitHub Pages
+## GitHub Pages (branch publish — not the Pages “Actions artifact” flow)
 
-After you push to `main`, enable deployment in the repository:
+This repo uses a different approach: CI builds Vite, then **pushes only `dist/`** to an orphan branch **`gh-pages`** ([`publish-gh-pages.yml`](.github/workflows/publish-gh-pages.yml)). No `deploy-pages` job, no `github-pages` environment approval.
 
-1. Open **GitHub** → repo **johnson-codes/CIAMS** → **Settings** → **Pages**.
-2. Under **Build and deployment**, set **Source** to **GitHub Actions** (not “Deploy from a branch”).
+1. Push `main` (or run the workflow manually: **Actions → “Publish site to gh-pages branch” → Run workflow**).
+2. **Settings → Pages → Build and deployment → Source:** choose **Deploy from a branch** (yes, the classic option).
+3. Set **Branch** to **`gh-pages`**, folder **`/ (root)`**, Save.
 
-The workflow [`.github/workflows/deploy-github-pages.yml`](.github/workflows/deploy-github-pages.yml) builds with `VITE_BASE_PATH=/CIAMS/` so assets resolve under the project site path.
+Build uses `VITE_BASE_PATH=/CIAMS/` so asset URLs match the project site.
 
 **Live URL:** [https://johnson-codes.github.io/CIAMS/](https://johnson-codes.github.io/CIAMS/)
 
-The first run may need you to approve the `github-pages` environment if GitHub prompts for it.
+After the first successful run, wait a minute and hard-refresh. **View source** should show `/CIAMS/assets/…js`, not `/src/main.tsx`.
 
 ## Remote
 

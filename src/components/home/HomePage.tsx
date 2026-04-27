@@ -1,3 +1,4 @@
+import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { DonateStrip } from "@/components/home/DonateStrip";
 import { HeroSection } from "@/components/home/HeroSection";
@@ -24,9 +25,7 @@ export function HomePage() {
           </div>
         </div>
       </main>
-      <footer className="mt-auto border-t border-neutral-200 bg-neutral-50 py-6 text-center text-sm text-neutral-500">
-        Prototype only — content and links are placeholders.
-      </footer>
+      <SiteFooter />
     </div>
   );
 }

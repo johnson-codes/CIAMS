@@ -1,10 +1,12 @@
-import { sidebar } from "@/data/site";
+import { paypalDonateUrl, sidebar } from "@/data/site";
 
 export function DonateStrip() {
   return (
     <div className="mb-8">
       <a
-        href="#"
+        href={paypalDonateUrl}
+        target="_blank"
+        rel="noopener noreferrer"
         className="inline-block rounded border border-neutral-200 bg-white p-1 shadow-sm transition hover:shadow"
       >
         <img

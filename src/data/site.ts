@@ -1,31 +1,60 @@
+export type NavChild = { label: string; href: string; muted?: boolean };
+
 export type NavItem =
   | { label: string; href: string }
   | {
       label: string;
       href: string;
-      children: { label: string; href: string }[];
+      children: NavChild[];
     };
 
 export const siteName = "Canada International Arts & Music Society";
 
+/** Header mark — swap for `/logo.png` after adding a file under `public/`. */
+export const logoUrl =
+  "https://ciams.ca/wp-content/uploads/2018/03/cropped-ciams-logo22.png";
+
+/** Same hosted button as ciams.ca PayPal donate flow. */
+export const paypalDonateUrl =
+  "https://www.paypal.com/donate/?hosted_button_id=7VHJQQWNBCEUG";
+
 export const navItems: NavItem[] = [
   { label: "HOME", href: "#" },
-  {
-    label: "ABOUT",
-    href: "#",
-    children: [
-      { label: "Our mission", href: "#" },
-      { label: "Board & team", href: "#" },
-      { label: "Patronage", href: "#" },
-    ],
-  },
   {
     label: "EVENTS",
     href: "#",
     children: [
-      { label: "Festival & competition", href: "#" },
-      { label: "Gala concert", href: "#" },
-      { label: "Past seasons", href: "#" },
+      {
+        label:
+          "2025 Rising Star Concerto Extravaganza (application closed, the selected performers will be notified by Mar.21, 2025)",
+        href: "#",
+        muted: true,
+      },
+      {
+        label:
+          "Vancouver International Music Festival 2024: A Celebration of Global Musical Talent and Cultural Diversity",
+        href: "#",
+      },
+      {
+        label: "CIAMS Launches 2024 Vancouver International Music Festival in August",
+        href: "#",
+      },
+      {
+        label: "🏆 Winners of the 2023 Vancouver International Music Competition! 🎶",
+        href: "#",
+      },
+      {
+        label: "The 2023 Vancouver International Music Competition was a great success!",
+        href: "#",
+      },
+      {
+        label: "VIMC Final Round: October 7-8, 2023 & Gala Concert: October 9, 2023",
+        href: "#",
+      },
+      {
+        label: "VIMC Gala Concert & Awards Ceremony for 2021 Winners on Oct.7th, 2022",
+        href: "#",
+      },
     ],
   },
   {
@@ -34,15 +63,48 @@ export const navItems: NavItem[] = [
     children: [
       { label: "Volunteer", href: "#" },
       { label: "Sponsor", href: "#" },
-      { label: "Donate", href: "#" },
     ],
   },
-  { label: "STORE", href: "#" },
-  { label: "CONTACT", href: "#" },
+  { label: "SUPPORT", href: paypalDonateUrl },
 ];
 
+/** Former header “About” dropdown — shown only in the footer. */
+export const footerAboutLinks: { label: string; href: string }[] = [
+  { label: "Our mission", href: "#" },
+  { label: "Board & team", href: "#" },
+  { label: "Patronage", href: "#" },
+];
+
+/** Former header “Contact” — shown only in the footer. */
+export const footerContactLink = { label: "Contact", href: "#" } as const;
+
+function isHomeLink(label: string) {
+  return label.trim().toUpperCase() === "HOME";
+}
+
+/** Flat list for footer “Explore” links (top-level + nested). HOME is header-only. */
+export function flattenFooterLinks(): { label: string; href: string }[] {
+  const out: { label: string; href: string }[] = [];
+  for (const item of navItems) {
+    if ("children" in item) {
+      if (!isHomeLink(item.label)) {
+        out.push({ label: item.label, href: item.href });
+      }
+      for (const child of item.children) {
+        if (!isHomeLink(child.label)) {
+          out.push({ label: child.label, href: child.href });
+        }
+      }
+    } else {
+      if (!isHomeLink(item.label)) {
+        out.push({ label: item.label, href: item.href });
+      }
+    }
+  }
+  return out;
+}
+
 export const hero = {
-  year: "2026",
   titleLines: [
     "VANCOUVER INTERNATIONAL",
     "MUSIC FESTIVAL",
@@ -52,9 +114,6 @@ export const hero = {
   ctaLabel: "REGISTER",
   /** Production points to competition site; prototype uses placeholder */
   ctaHref: "https://example.com/register",
-  /** Same asset as live site hero for visual parity */
-  backgroundImageUrl:
-    "https://ciams.ca/wp-content/uploads/2026/03/cropped-2026-vimfc-eng.jpg",
 };
 
 export const promoTiles = [
